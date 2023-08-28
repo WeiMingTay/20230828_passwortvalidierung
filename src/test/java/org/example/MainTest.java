@@ -70,16 +70,18 @@ class MainTest {
         //THEN
         assertFalse(actual);
     }
+
     // Schritt 9 (Bonus): Schreibe einen Test für die Überprüfung, ob das Passwort 'schlechte' Passwörter wie 'passwort' oder '123456' enthält.
     @Test
     void passwordIsBad() {
         //GIVEN
-        String password = "qwertzui";
+        String password = "12345678";
         //WHEN
         boolean actual = Main.passwordIsBad(password);
         //THEN
         assertTrue(actual);
     }
+
     @Test
     void passwordIsOkay() {
         //GIVEN
@@ -90,7 +92,7 @@ class MainTest {
         assertFalse(actual);
     }
 
-    // Sonderzeichen
+    // Bonus 1: Erweitere die Passwortvalidierung um die Überprüfung, ob das Passwort Sonderzeichen enthält.
     @Test
     void passwordContainsSpecialChar() {
         //GIVEN
@@ -100,6 +102,7 @@ class MainTest {
         //THEN
         assertTrue(actual);
     }
+
     @Test
     void passwordContainsNoSpecialChar() {
         //GIVEN

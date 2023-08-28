@@ -13,8 +13,9 @@ class MainTest {
     void passwordLongerThan8() {
         //GIVEN
         String password = "password";
+        int laenge = 8;
         //WHEN
-        boolean actual = Main.passwordLength(password);
+        boolean actual = Main.passwordLength(password, laenge);
         //THEN
         assertTrue(actual);
     }
@@ -23,8 +24,9 @@ class MainTest {
     void passwordNoLongerThan8() {
         //GIVEN
         String password = "passwor";
+        int laenge = 8;
         //WHEN
-        boolean actual = Main.passwordLength(password);
+        boolean actual = Main.passwordLength(password, laenge);
         //THEN
         assertFalse(actual);
     }
@@ -97,8 +99,9 @@ class MainTest {
     void passwordContainsSpecialChar() {
         //GIVEN
         String password = "password!";
+        String specialChar = "!@#^*()-_=+[]{}|;:,.?";
         //WHEN
-        boolean actual = Main.passwordContainsSpecialCharacters(password);
+        boolean actual = Main.passwordContainsSpecialCharacters(password, specialChar);
         //THEN
         assertTrue(actual);
     }
@@ -107,8 +110,9 @@ class MainTest {
     void passwordContainsNoSpecialChar() {
         //GIVEN
         String password = "password";
+        String specialChar = "!@#^*()-_=+[]{}|;:,.?";
         //WHEN
-        boolean actual = Main.passwordContainsSpecialCharacters(password);
+        boolean actual = Main.passwordContainsSpecialCharacters(password, specialChar);
         //THEN
         assertFalse(actual);
     }

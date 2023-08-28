@@ -16,24 +16,28 @@ public class Main {
         // Schritt 9 (Bonus): Schreibe einen Test für die Überprüfung, ob das Passwort 'schlechte' Passwörter wie 'passwort' oder '123456' enthält.
         // Schritt 10 (Bonus): Implementiere die Funktionalität zur Überprüfung, ob das Passwort 'schlechte' Passwörter enthält.
 
-        Scanner scanner = new Scanner(System.in);
         System.out.println("Passwort eingeben: ");
+
+        int length = 8;
+        String specialChar = "!@#^*()-_=+[]{}|;:,.?";
+        String passwortGenerator = generatePassword(length, specialChar);
+
+
+        Scanner scanner = new Scanner(System.in);
+
         String password = scanner.next(); // next liest alles bis zur nächsten Leerzeile ein.
         // nextLine würde die ganze verbleibene Zeile lesen
 
-        boolean passwortLaenge = passwordLength(password);
+        boolean passwortLaenge = passwordLength(password, length);
         boolean passwortWithDigits = passwordContainsDigits(password);
         boolean passwortWithUpperLowerCase = passwordContainsUpperCase(password);
         boolean passwortBad = passwordIsBad(password);
-        boolean passwortWithSpecialChar = passwordContainsSpecialCharacters(password);
+        boolean passwortWithSpecialChar = passwordContainsSpecialCharacters(password, specialChar);
 
-        int length = 8;
-        String passwortGenerator = generatePassword(length);
     }
 
     // Schritt 4: Implementiere die Funktionalität zur Überprüfung der Passwortlänge.
-    public static boolean passwordLength(String password) {
-        int laenge = 8;
+    public static boolean passwordLength(String password, int laenge) {
 
         if (password.length() >= laenge) {
             return true;
@@ -54,6 +58,8 @@ public class Main {
         }
         System.out.println("Passwort muss Ziffern enthalten");
         return false;
+
+        // return password.matches(".*[0-9].*");
     }
 
     //Schritt 8 (Bonus): Implementiere die Funktionalität zur Überprüfung, ob das Passwort kleine/große Buchstaben enthält.
@@ -97,8 +103,8 @@ public class Main {
     }
 // Bonus 1: Erweitere die Passwortvalidierung um die Überprüfung, ob das Passwort Sonderzeichen enthält.
 
-    public static boolean passwordContainsSpecialCharacters(String password) {
-        String specialCharacters = "!@#$%^&*()-_=+[]{}|;:',.<>/?";
+    public static boolean passwordContainsSpecialCharacters(String password, String specialCharacters) {
+
 
         for (char ch : password.toCharArray()) {
             for (char c : specialCharacters.toCharArray()) {
@@ -114,15 +120,44 @@ public class Main {
     }
 
     // Bonus 2: Implementiere eine Funktion, die ein zufälliges sicheres Passwort generiert.
-    public static String generatePassword(int length) {
+    public static String generatePassword(int length, String specialChars) {
         SecureRandom random = new SecureRandom();
         StringBuilder password = new StringBuilder();
 
-        for (int i = 0; i < length; i++) {
+        /* for (int i = 0; i < length; i++) {
             int randomAscii = random.nextInt(126 -33 +1)+33;
             password.append((char) randomAscii);
         }
-        System.out.println("zB.: "+password.toString());
+        */
+
+        // Zeichen definieren
+        String upperCaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String lowerCaseChars = "abcdefghijklmnopqrstuvwxyz";
+        String numberChars = "0123456789";
+
+
+        // Mindestens ein Zeichen jedes Zeichensatzes hinzufügen
+        password.append((upperCaseChars.charAt(random.nextInt(upperCaseChars.length()))));
+        password.append((lowerCaseChars.charAt(random.nextInt(lowerCaseChars.length()))));
+        password.append((numberChars.charAt(random.nextInt(numberChars.length()))));
+        password.append((specialChars.charAt(random.nextInt(specialChars.length()))));
+
+        // Restliches Passwort mit Zufallszeichen auffüllen
+        String allChars = upperCaseChars + lowerCaseChars + numberChars + specialChars;
+        for (int i = 4; i < length; i++) {
+            int randomIndex = random.nextInt(allChars.length());
+            password.append(allChars.charAt(randomIndex));
+        }
+
+        // Mischen der Zeichenfolge
+        for (int i = 0; i < length; i++) {
+            int randomIndex = random.nextInt(length);
+            char temp = password.charAt(i);
+            password.setCharAt(i, password.charAt(randomIndex));
+            password.setCharAt(randomIndex, temp);
+        }
+
+        System.out.println("zB: " + password.toString());
         return password.toString();
     }
 }

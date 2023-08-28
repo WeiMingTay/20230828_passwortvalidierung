@@ -1,5 +1,6 @@
 package org.example;
 
+import java.security.SecureRandom;
 import java.util.Scanner;
 
 public class Main {
@@ -8,7 +9,6 @@ public class Main {
         // Schritt 2: Überlege dir, wie die Methoden für die Passwortvalidierung aussehen müssen.
         // Schritt 3: Schreibe einen Test für die Passwortlänge.
         // Schritt 4: Implementiere die Funktionalität zur Überprüfung der Passwortlänge.
-        //      boolean schritt4 = passwordLength("password");
         // Schritt 5: Schreibe einen Test für die Überprüfung, ob das Passwort Zahlen enthält.
         // Schritt 6: Implementiere die Funktionalität zur Überprüfung, ob das Passwort Zahlen enthält.
         // Schritt 7 (Bonus): Schreibe einen Test für die Überprüfung, ob das Passwort kleine/große Buchstaben enthält.
@@ -27,6 +27,8 @@ public class Main {
         boolean passwortBad = passwordIsBad(password);
         boolean passwortWithSpecialChar = passwordContainsSpecialCharacters(password);
 
+        int length = 8;
+        String passwortGenerator = generatePassword(length);
     }
 
     // Schritt 4: Implementiere die Funktionalität zur Überprüfung der Passwortlänge.
@@ -36,7 +38,8 @@ public class Main {
         if (password.length() >= laenge) {
             return true;
         } else {
-            System.out.println("Passwort Too $hort. Bitte geben Sie min. "+laenge+" Zeichen ein.");
+            System.out.println("Passwort Too $hort. Bitte geben Sie min. " + laenge + " Zeichen ein.");
+            // System.out.println("zB: "+generatePassword(23));
             return false;
         }
     }
@@ -78,7 +81,7 @@ public class Main {
 
         System.out.println("Passwort muss sowohl Groß- als auch Kleinbuchstaben enthalten.");
         return false;
-}
+    }
 
     // Schritt 10 (Bonus): Implementiere die Funktionalität zur Überprüfung, ob das Passwort 'schlechte' Passwörter enthält.
     public static boolean passwordIsBad(String password) {
@@ -92,8 +95,8 @@ public class Main {
 
         return false;
     }
+// Bonus 1: Erweitere die Passwortvalidierung um die Überprüfung, ob das Passwort Sonderzeichen enthält.
 
-    // Bonus 2: Implementiere eine Funktion, die ein zufälliges sicheres Passwort generiert.
     public static boolean passwordContainsSpecialCharacters(String password) {
         String specialCharacters = "!@#$%^&*()-_=+[]{}|;:',.<>/?";
 
@@ -104,9 +107,22 @@ public class Main {
                 }
             }
         }
-        System.out.println("Passwort muss min. eines der folgenden Zeichen enthalten: "+specialCharacters);
+        System.out.println("Passwort muss min. eines der folgenden Zeichen enthalten: " + specialCharacters);
         return false;
 
 
+    }
+
+    // Bonus 2: Implementiere eine Funktion, die ein zufälliges sicheres Passwort generiert.
+    public static String generatePassword(int length) {
+        SecureRandom random = new SecureRandom();
+        StringBuilder password = new StringBuilder();
+
+        for (int i = 0; i < length; i++) {
+            int randomAscii = random.nextInt(126 -33 +1)+33;
+            password.append((char) randomAscii);
+        }
+        System.out.println("zB.: "+password.toString());
+        return password.toString();
     }
 }
